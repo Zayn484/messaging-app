@@ -19,7 +19,7 @@ const Chat = ({ location, setToken }) => {
 	const [ users, setUsers ] = React.useState('');
 	const [ message, setMessage ] = React.useState('');
 	const [ messages, setMessages ] = React.useState([]);
-	const API_URL = 'localhost:5000';
+	const API_URL = 'open-chat-app.herokuapp.com';
 
 	React.useEffect(
 		() => {

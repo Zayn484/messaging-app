@@ -6,7 +6,7 @@ const Message = require('../../models/Message');
 
 // @route GET api/chat/messages
 // @desc Get chat
-// @access Public
+// @access Private
 router.get('/messages/:room', async (req, res) => {
 	const { room } = req.params;
 
