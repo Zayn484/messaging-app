@@ -33,7 +33,11 @@ const Chat = ({ location, setToken }) => {
 			socket.emit('join', { name, room }, () => {});
 
 			axios
-				.get(`/api/chat/messages/${room}`)
+				.get(`/api/chat/messages/${room}`, {
+					headers: {
+						Authorization: 'Bearer ' + localStorage.getItem('token')
+					}
+				})
 				.then((res) => {
 					setMessages(res.data);
 				})
