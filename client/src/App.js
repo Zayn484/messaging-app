@@ -2,11 +2,17 @@ import React from 'react';
 
 import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
 
-import Join from './components/Join/Join';
-import Chat from './components/Chat/Chat';
+import Join from './pages/Join/Join';
+import Chat from './pages/Chat/Chat';
 
 const App = () => {
 	const [ token, setToken ] = React.useState(false);
+
+	React.useEffect(() => {
+		if (localStorage.getItem('__key')) {
+			setToken(true);
+		}
+	}, []);
 
 	return (
 		<Router>
@@ -14,8 +20,9 @@ const App = () => {
 				<Route exact path="/" render={() => <Join setToken={() => setToken(true)} />} />
 				<Route
 					path="/chat"
-					render={() => (token ? <Chat setToken={() => setToken(false)} /> : <Redirect to="/" />)}
+					render={() => (token ? <Chat token={token} setToken={setToken} /> : <Redirect to="/" />)}
 				/>
+				<Redirect to="/" />
 			</Switch>
 		</Router>
 	);

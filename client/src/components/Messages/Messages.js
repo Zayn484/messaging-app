@@ -6,8 +6,8 @@ import './Messages.css';
 
 export default ({ messages, name }) => (
 	<ScrollToBottom className="messages">
-		{messages.map((msg, index) => (
-			<div key={index}>
+		{messages.map((msg) => (
+			<div key={msg._id}>
 				<Message message={msg} name={name} />
 			</div>
 		))}

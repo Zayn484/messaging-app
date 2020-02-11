@@ -1,11 +1,12 @@
 import React from 'react';
+import dayjs from 'dayjs';
 
 import './Message.css';
 
 import ReactEmoji from 'react-emoji';
 
-const Message = ({ message: { text, creator }, name }) => {
-	const user = creator;
+const Message = ({ message: { _id, message, userName, createdAt }, name }) => {
+	const user = userName;
 	let isSentByCurrentUser = false;
 
 	const trimmedName = name.trim().toLowerCase();
@@ -17,16 +18,26 @@ const Message = ({ message: { text, creator }, name }) => {
 	return isSentByCurrentUser ? (
 		<div className="messageContainer justifyEnd">
 			<p className="sentText pr-10">{trimmedName}</p>
-			<div className="messageBox backgroundBlue">
-				<p className="messageText colorWhite">{ReactEmoji.emojify(text)}</p>
+			<div
+				className="messageBox backgroundBlue"
+				data-toggle="tooltip"
+				data-placement="top"
+				title={dayjs(createdAt).format('YYYY-MM-DD')}
+			>
+				<p className="messageText colorWhite">{ReactEmoji.emojify(message)}</p>
 			</div>
 		</div>
 	) : (
 		<div className="messageContainer justifyStart">
-			<div className="messageBox backgroundLight">
-				<p className="messageText colorDark">{ReactEmoji.emojify(text)}</p>
+			<div
+				className="messageBox backgroundLight"
+				data-toggle="tooltip"
+				data-placement="top"
+				title={dayjs(createdAt).format('YYYY-MM-DD')}
+			>
+				<p className="messageText colorDark">{ReactEmoji.emojify(message)}</p>
 			</div>
-			<p className="sentText pl-10 ">{user}</p>
+			<p className="sentText pl-10 ">{userName}</p>
 		</div>
 	);
 };

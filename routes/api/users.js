@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 
 // Models
 const User = require('../../models/User');
@@ -9,7 +10,7 @@ const User = require('../../models/User');
 // @desc Join user
 // @access Public
 router.post('/join', async (req, res) => {
-	const { name, room } = req.body;
+	const { name, room, password } = req.body;
 
 	const user = await User.findOne({ name: name });
 
@@ -19,29 +20,52 @@ router.post('/join', async (req, res) => {
 
 	const newUser = new User({
 		name,
-		room
+		room,
+		password
 	});
 
-	newUser.save().then((user) => res.json(user)).catch((error) => console.log(error));
+	bcrypt.genSalt(10, (err, salt) => {
+		bcrypt.hash(newUser.password, salt, (err, hash) => {
+			if (err) throw err;
+			newUser.password = hash;
+
+			newUser.save().then((user) => res.json(user)).catch((error) => console.log(error));
+		});
+	});
 });
 
+// @route POST api/users/login
+// @desc Login user to app
+// @access Public
 router.post('/login', async (req, res) => {
-	const { name } = req.body;
+	const { name, password } = req.body;
 
 	const user = await User.findOne({ name: name });
 
 	if (!user) {
-		return res.status(400).json({ name: 'Incorrect credentials, please try again!' });
+		return res.status(400).json({ message: 'User not found, please create an account!' });
 	}
 
-	const token = jwt.sign(
-		{
-			name: name
-		},
-		'jhfuewwehjsfjhvbwpwoeqwe'
-	);
+	bcrypt
+		.compare(password, user.password)
+		.then((isMatched) => {
+			if (isMatched) {
+				const token = jwt.sign(
+					{
+						name: name,
+						password: password
+					},
+					'jhfuewwehjsfjhvbwpwoeqwe'
+				);
 
-	res.status(200).json({ token: token, name: name });
+				res.status(200).json({ token: token, name: name });
+			} else {
+				return res.status(400).json({ message: 'Password is incorrect' });
+			}
+		})
+		.catch((err) => {
+			console.log(err);
+		});
 });
 
 module.exports = router;

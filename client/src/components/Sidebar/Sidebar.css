@@ -1,0 +1,40 @@
+.sidebar {
+    padding: 15px;
+    width: 25%;
+    background-color: #eee;
+    height: 100%;
+    overflow: scroll;
+}
+
+.sidebar-head {
+    border-bottom: 1px solid #ccc;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.sidebar-head input {
+    padding: 5px;
+    border-radius: 20px;
+    border-color: 2px solid;
+}
+
+.sidebar-head__options {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.sidebar-head__options label {
+    color: #F04D30;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.sidebar-contacts {
+    margin-top: 20px;
+}
+
+.sidebar-contacts .contact {
+    margin: 10px 0;
+}
