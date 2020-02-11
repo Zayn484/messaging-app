@@ -5,10 +5,10 @@ import './Message.css';
 
 import ReactEmoji from 'react-emoji';
 
-const Message = ({ message: { _id, message, userName, createdAt }, name }) => {
+const Message = ({ message: { _id, text, userName, createdAt }, name }) => {
 	const user = userName;
 	let isSentByCurrentUser = false;
-
+	console.log(text);
 	const trimmedName = name.trim().toLowerCase();
 
 	if (user === trimmedName) {
@@ -24,7 +24,7 @@ const Message = ({ message: { _id, message, userName, createdAt }, name }) => {
 				data-placement="top"
 				title={dayjs(createdAt).format('YYYY-MM-DD')}
 			>
-				<p className="messageText colorWhite">{ReactEmoji.emojify(message)}</p>
+				<p className="messageText colorWhite">{ReactEmoji.emojify(text)}</p>
 			</div>
 		</div>
 	) : (
@@ -35,7 +35,7 @@ const Message = ({ message: { _id, message, userName, createdAt }, name }) => {
 				data-placement="top"
 				title={dayjs(createdAt).format('YYYY-MM-DD')}
 			>
-				<p className="messageText colorDark">{ReactEmoji.emojify(message)}</p>
+				<p className="messageText colorDark">{ReactEmoji.emojify(text)}</p>
 			</div>
 			<p className="sentText pl-10 ">{userName}</p>
 		</div>

@@ -4,12 +4,14 @@ import Message from './Message/Message';
 
 import './Messages.css';
 
-export default ({ messages, name }) => (
-	<ScrollToBottom className="messages">
-		{messages.map((msg) => (
-			<div key={msg._id}>
-				<Message message={msg} name={name} />
-			</div>
-		))}
-	</ScrollToBottom>
-);
+export default ({ messages, name }) => {
+	return (
+		<ScrollToBottom className="messages">
+			{messages.map((msg) => (
+				<div key={msg._id}>
+					<Message message={msg} name={name} />
+				</div>
+			))}
+		</ScrollToBottom>
+	);
+};

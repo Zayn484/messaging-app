@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const isAuth = require('../../middleware/is-auth');
 
 // Models
 const User = require('../../models/User');
@@ -62,6 +63,23 @@ router.post('/login', async (req, res) => {
 			} else {
 				return res.status(400).json({ message: 'Password is incorrect' });
 			}
+		})
+		.catch((err) => {
+			console.log(err);
+		});
+});
+
+// @route POST api/users/:username
+// @desc Get all users in app
+// @access Protected
+router.get('/:username', isAuth, (req, res) => {
+	if (!req.isAuth) {
+		return res.status(404).json({ message: 'Unauthorized' });
+	}
+
+	User.find({ name: { $ne: req.params.username } })
+		.then((users) => {
+			res.json(users);
 		})
 		.catch((err) => {
 			console.log(err);
